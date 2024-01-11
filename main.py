@@ -10,7 +10,7 @@ class AVLNode:
         self.right = None
 
     def __str__(self, level=0, prefix="Root: "):
-        ret = "\\t" * level + prefix + str(self.key) + "\\n"
+        ret = f"\t" * level + prefix + str(self.key) + f"\n"
         if self.left:
             ret += self.left.__str__(level + 1, "L--- ")
         if self.right:
@@ -141,6 +141,7 @@ def delete_node(root, key):
     return root
 
 
+# Task 1
 # Finds max value in the Tree
 def find_max_value(root):
     if root is None:
@@ -151,6 +152,28 @@ def find_max_value(root):
         current = current.right
 
     return current.key
+
+
+# Task 2
+# Finds min value in the Tree
+def find_min_value(root):
+    if root is None:
+        return None
+
+    current = root
+    while current.left is not None:
+        current = current.left
+
+    return current.key
+
+
+# Task 3
+# Calculates sum of Tree values
+def calculate_tree_sum(root):
+    if root is None:
+        return 0
+
+    return root.key + calculate_tree_sum(root.left) + calculate_tree_sum(root.right)
 
 
 # Generate unique random numbers
@@ -165,6 +188,16 @@ def generate_unique_random_numbers(num):
     return generated_numbers
 
 
+# Checks if tree operation is correct
+def check_correct_tree_operation(random_number, tree_value, message):
+    if random_number == tree_value:
+        print(f"{message}: {tree_value}")
+    else:
+        print(
+            f"Value is incorrect. Expected value {random_number}, but got {tree_value}"
+        )
+
+
 random_unique_numbers = generate_unique_random_numbers(20)
 
 print(random_unique_numbers)
@@ -177,4 +210,17 @@ for key in random_unique_numbers:
     print("AVL-Tree:")
     print(root)
 
-print(f"Max value in the AVL-Tree: {find_max_value(root)}")
+print("Task 1 - find Max value")
+check_correct_tree_operation(
+    max(random_unique_numbers), find_max_value(root), "Max value in the AVL-Tree"
+)
+
+print("Task 2 - find Min value")
+check_correct_tree_operation(
+    min(random_unique_numbers), find_min_value(root), "Min value in the AVL-Tree"
+)
+
+print("Task 3 - calculate sum of Tree values")
+check_correct_tree_operation(
+    sum(random_unique_numbers), calculate_tree_sum(root), "Sum of Tree values"
+)
